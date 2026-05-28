@@ -5,6 +5,19 @@ namespace csv_column_matcher
     {
         static void Main(string[] args)
         {
+            try
+            {
+                MainLoop();
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex);
+                Console.ReadLine();
+            } 
+        }
+
+        public static void MainLoop()
+        {
             while (true)
             {
                 Console.WriteLine("BaseInput file:");
@@ -28,6 +41,21 @@ namespace csv_column_matcher
 
                 Console.WriteLine("File is Valid.\nMatchInput Collumn:");
                 int matchInputColumnIndex = Convert.ToInt32(Console.ReadLine());
+
+                Console.WriteLine("Ignore First Line/Header (true/false)?");
+                bool ignoreHeader = true;
+                string boolInput = Console.ReadLine()?.Trim();
+
+                if (bool.TryParse(boolInput, out bool result))
+                {
+                    Console.WriteLine($"You entered : {result}");
+                    ignoreHeader = result;
+                }
+                else
+                {
+                    Console.WriteLine("Invalid Input. Please enter 'true' or 'false'.");
+                    continue;
+                }
 
                 List<string[]> baseInputLines = FileService.ReadAllLinesToArray(baseFile);
                 List<string[]> matchInputLines = FileService.ReadAllLinesToArray(matchFile);
